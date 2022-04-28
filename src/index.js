@@ -63,10 +63,10 @@ let controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 0.2;
 controls.enableRotate = false;
-controls.enablePan = false;
+//controls.enablePan = false;
 //controls.autoRotate = true;
 controls.maxDistance = 7;
-controls.minDistance = 1;
+controls.minDistance = 0.1;
 
 
 //shader uniforms!
@@ -75,19 +75,14 @@ let uniforms = {
   time: { value: 1.0 },
 
   //vertex only
-  scale: { value: 1.0 },
-  displacement: { value: feet.scale.dispValue },
-  speed: { value: feet.speed.vertexValue },
 
   //fragment only
-  fragSpeed: { value: feet.speed.fragmentValue },
-  uvScale: { value: [feet.scale.value, feet.scale.value] },
-  brightness: { value: feet.brightness.value },
-  permutations: { value: feet.permutations.value },
-  iterations: { value: 1.0 },
-  color1: { value: [feet.color.uno.r / 255, feet.color.uno.g / 255, feet.color.uno.b / 255] },
-  color2: { value: [feet.color.dos.r / 255, feet.color.dos.g / 255, feet.color.dos.b / 255] },
-  color3: { value: [feet.color.tres.r / 255, feet.color.tres.g / 255, feet.color.tres.b / 255] },
+  Randomise_Fractal: { value: [0.2, 0.7]},
+  x1: { value: 1.0 },
+  y1: { value: 1.05 },
+  z1: { value: 1.0 },
+  t: { value: 1.0 },
+  NUM_SIDES: { value: 3.0 }
 };
 
 //plane geometry
