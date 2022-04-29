@@ -15,10 +15,8 @@ window.$fxhashData = feet;
 // FX Features
 window.$fxhashFeatures = {
   "t": feet.t.tag,
-  "Scale": feet.scale.tag,
-  "Speed": feet.speed.tag,
-  "Brightness": feet.brightness.tag,
-  "Depth": feet.permutations.tag
+  "n": feet.n.tag,
+  "rf": feet.rtag + feet.ftag
 };
 console.log(window.$fxhashFeatures);
 console.log(feet);
@@ -71,12 +69,12 @@ let uniforms = {
   //vertex only
 
   //fragment only
-  Randomise_Fractal: { value: [0.2, 0.5]},
+  Randomise_Fractal: { value: [feet.rvalue, feet.fvalue]},
   x1: { value: 1.1 },
   y1: { value: 1.05 },
   z1: { value: 1.0 },
   t: { value: feet.t.value },
-  NUM_SIDES: { value: 1.1 }
+  NUM_SIDES: { value: feet.n.value }
 };
 
 //plane geometry
@@ -94,6 +92,7 @@ const material = new THREE.ShaderMaterial({
 
 //add mesh to scene <3
 const mesh = new THREE.Mesh(pln, material);
+mesh.rotateZ(Math.PI/2);
 scene.add(mesh);
 
 

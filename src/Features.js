@@ -1,45 +1,31 @@
-import { interpolateCool, interpolateInferno, interpolateMagma, interpolateWarm, interpolateViridis } from 'd3-scale-chromatic'
-import { rgb, hsl, color } from 'd3-color';
-
 class Features {
     constructor() {
 
-        //shader t parameter
+        //number of sides
+        this.n = {
+            tag: "",
+            value: 1.0
+        }
+        this.setN();
+
+        //random shader parameters
+        //t
         this.t = {
             tag: "",
             value: 1.0
         }
         this.setT();
 
-        //scale of vertex wigglers
-        this.scale = {
-            tag: "",
-            value: 0.0,
-            dispValue: 0.0
+        //r and f
+        this.rf = {
+            rtag: "",
+            ftag: "",
+            rvalue: 0.0,
+            fvalue: 0.0
         }
-        this.setScale();
+        this.setRF();
 
-        //drives how fast the wiggle and wave speeds roll
-        this.speed = {
-            tag: "",
-            vertexValue: 1.0,
-            fragmentValue: 1.0
-        }
-        this.setSpeed();
 
-        //drives brightness uniform in fragment shader
-        this.brightness = {
-            tag: "",
-            value: 1.0
-        }
-        this.setBrightness();
-
-        //permutations in fragment shader
-        this.permutations = {
-            tag: "",
-            value: 4.0
-        }
-        this.setPermutations();
     }
 
     //map function logic from processing <3
@@ -50,89 +36,59 @@ class Features {
 
     setT() {
         let t = fxrand();
-        if (t < 0.15) {
-            this.t.tag = "s"
+        if (t < 0.11) {
+            this.t.tag = "111"
         }
-        else if (t < 0.45) {
-            this.t.tag = "m"
+        else if (t < 0.44) {
+            this.t.tag = "444"
         }
-        else if (t < 0.85) {
-            this.t.tag = "l"
+        else if (t < 0.88) {
+            this.t.tag = "888"
         }
         else{
-            this.t.tag = "xl"
+            this.t.tag = "999"
         }
         this.t.value = this.map(t, 0, 1, 1.0, 5.0);
     }
 
-
-    //set bump and texture scale
-    setScale() {
-        let s = fxrand();
-        if (s < 0.23) {
-            this.scale.tag = "Smooth";
-        }
-        else if (s < 0.57) {
-            this.scale.tag = "Low";
+    setRF() {
+        let r = fxrand();
+        if (r < 0.5) {
+            this.rtag = "0"
         }
         else {
-            this.scale.tag = "High";
+            this.rtag = "1"
         }
-        this.scale.value = this.map(s, 0, 1, 1.0, 3.0);
-        this.scale.dispValue = this.map(s, 0, 1, 0.005, 0.02);
-    }
+        this.rvalue = r;
 
-    //set vertex and ragment speeds
-    setSpeed(){
-        let s = fxrand();
-        if (s < 0.44) {
-            this.speed.tag = "Slow";
-        }
-        else if (s < 0.61) {
-            this.speed.tag = "Steady";
-        }
-        else if (s < 0.88) {
-            this.speed.tag = "Fast";
-        }
-        else{
-            this.speed.tag = "Zippy"
-        }
-        this.speed.vertexValue = this.map(s, 0, 1, 0.25, 0.75);
-        this.speed.fragmentValue = this.map(s, 0, 1, 0.25, 1.75);
-    }
-
-    //set fragment brightness
-    setBrightness(){
-        let b = fxrand();
-        if (b < 0.41) {
-            this.brightness.tag = "Dark";
-        }
-        else if (b < 0.63) {
-            this.brightness.tag = "Even";
-        }
-        else{
-            this.brightness.tag = "Bright";
-        }
-        this.brightness.value = this.map(b, 0, 1, 0.75, 2.0);
-    }
-
-    //set fragment permutations
-    setPermutations(){
-        let p = fxrand();
-        if (p < 0.19) {
-            this.permutations.tag = "Sunlight";
-        }
-        else if (p < 0.39) {
-            this.permutations.tag = "Twilight";
-        }
-        else if (p < 0.73) {
-            this.permutations.tag = "Midnight";
+        let f = fxrand();
+        if (f < 0.5) {
+            this.ftag = "0"
         }
         else {
-            this.permutations.tag = "Abyssal";
+            this.ftag = "1"
         }
-        this.permutations.value = this.map(p, 0, 1, 3, 5);
+        this.fvalue = f;
     }
+
+    setN() {
+        let n = fxrand();
+        if (n < 0.12) {
+            this.n.tag = "121"
+        }
+        else if (n < 0.47) {
+            this.n.tag = "474"
+        }
+        else if (n < 0.78) {
+            this.n.tag = "878"
+        }
+        else{
+            this.n.tag = "999"
+        }
+        this.n.value = this.map(n, 0, 1, 0.333, 3.0);
+
+    }
+
 }
 
 export { Features }
