@@ -3,7 +3,6 @@
 
 //imports
 import { Features } from './Features';
-
 import * as THREE from 'three';
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
@@ -15,7 +14,7 @@ window.$fxhashData = feet;
 
 // FX Features
 window.$fxhashFeatures = {
-  "Palette": feet.color.name,
+  "t": feet.t.tag,
   "Scale": feet.scale.tag,
   "Speed": feet.speed.tag,
   "Brightness": feet.brightness.tag,
@@ -25,9 +24,7 @@ console.log(window.$fxhashFeatures);
 console.log(feet);
 
 //vars related to fxhash preview call
-//loaded tracks whether texture has loaded;
 //previewed tracks whether preview has been called
-let loaded = false;
 let previewed = false;
 
 //from fxhash webpack boilerplate
@@ -54,14 +51,11 @@ document.body.appendChild(renderer.domElement);
 let camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.01, 1000);
 camera.position.set(0, 0, 4);
 
-//lights
-//const amb = new THREE.AmbientLight(0xffffff);
-//scene.add(amb);
 
 // controls
 let controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
-controls.dampingFactor = 0.2;
+controls.dampingFactor = 1.0;
 controls.enableRotate = false;
 //controls.enablePan = false;
 //controls.autoRotate = true;
@@ -77,19 +71,19 @@ let uniforms = {
   //vertex only
 
   //fragment only
-  Randomise_Fractal: { value: [0.2, 0.7]},
-  x1: { value: 1.0 },
+  Randomise_Fractal: { value: [0.2, 0.5]},
+  x1: { value: 1.1 },
   y1: { value: 1.05 },
   z1: { value: 1.0 },
-  t: { value: 1.0 },
-  NUM_SIDES: { value: 3.0 }
+  t: { value: feet.t.value },
+  NUM_SIDES: { value: 1.1 }
 };
 
 //plane geometry
-const pln = new THREE.PlaneGeometry(10, 10);
+const pln = new THREE.PlaneGeometry(15, 15);
 
 //placeholder material for testing
-const material2 = new THREE.MeshNormalMaterial({side: THREE.DoubleSide});
+//const material2 = new THREE.MeshNormalMaterial({side: THREE.DoubleSide});
 
 //first shot at a shader material
 const material = new THREE.ShaderMaterial({
@@ -100,17 +94,7 @@ const material = new THREE.ShaderMaterial({
 
 //add mesh to scene <3
 const mesh = new THREE.Mesh(pln, material);
-//mesh.scale.set(20, 20, 20);
-//mesh.position.y -= 2;
 scene.add(mesh);
-
-//loaded flag for fxhash capture
-loaded = true;
-
-
-//set the background color 
-let bod = document.body;
-bod.style.backgroundColor = feet.color.background;
 
 
 //set up resize listener and let it rip!
@@ -133,7 +117,11 @@ function animate() {
 
   requestAnimationFrame(animate);
 
-  uniforms['time'].value = performance.now() / 1000;
+  //uniforms['time'].value = performance.now() / 1000;
+
+  //set the y1 uniform along a sine wave
+  let seconds = performance.now() / 10000;
+  uniforms['y1'].value = feet.map(Math.cos(seconds), -1, 1, 1.02, 1.08);
 
   controls.update(); // only required if controls.enableDamping = true, or if controls.autoRotate = true
 
@@ -146,11 +134,9 @@ function render() {
 
   renderer.render(scene, camera);
 
-  if (previewed == false && loaded == true) {
+  if (previewed == false) {
     fxpreview();
     previewed = true;
   }
-
-  //mesh.rotation.y += 0.001;
 
 }

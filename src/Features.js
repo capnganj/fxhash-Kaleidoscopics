@@ -4,16 +4,12 @@ import { rgb, hsl, color } from 'd3-color';
 class Features {
     constructor() {
 
-        //color palette 
-        this.color = {
-            name: "",
-            background: {},
-            uno: {},
-            dos: {},
-            tres: {}
-        };
-        this.setColorPalette();
-        this.setColors();
+        //shader t parameter
+        this.t = {
+            tag: "",
+            value: 1.0
+        }
+        this.setT();
 
         //scale of vertex wigglers
         this.scale = {
@@ -52,93 +48,23 @@ class Features {
         return newval;
     }
 
-    //color palette interpolation
-    interpolateFn(val) {
-        switch (this.color.name) {
-            case "Cool": return rgb(interpolateCool(val));
-            case "Warm": return rgb(interpolateWarm(val));
-            case "Viridis": return rgb(interpolateViridis(val));
-            case "Magma": return rgb(interpolateMagma(val));
-            case "Inferno": return rgb(interpolateInferno(val));
-            default:
-                return "high"
+    setT() {
+        let t = fxrand();
+        if (t < 0.15) {
+            this.t.tag = "s"
         }
+        else if (t < 0.45) {
+            this.t.tag = "m"
+        }
+        else if (t < 0.85) {
+            this.t.tag = "l"
+        }
+        else{
+            this.t.tag = "xl"
+        }
+        this.t.value = this.map(t, 0, 1, 1.0, 5.0);
     }
 
-    //color inverter
-    invertColor(rgb, bw) {
-        let hex = color(rgb).formatHex()
-        if (hex.indexOf('#') === 0) {
-            hex = hex.slice(1);
-        }
-        // convert 3-digit hex to 6-digits.
-        if (hex.length === 3) {
-            hex = hex[0] + hex[0] + hex[1] + hex[1] + hex[2] + hex[2];
-        }
-        if (hex.length !== 6) {
-            throw new Error('Invalid HEX color.');
-        }
-        var r = parseInt(hex.slice(0, 2), 16),
-            g = parseInt(hex.slice(2, 4), 16),
-            b = parseInt(hex.slice(4, 6), 16);
-        if (bw) {
-            // https://stackoverflow.com/a/3943023/112731
-            return (r * 0.299 + g * 0.587 + b * 0.114) > 186
-                ? '#000000'
-                : '#FFFFFF';
-        }
-        // invert color components
-        r = (255 - r).toString(16);
-        g = (255 - g).toString(16);
-        b = (255 - b).toString(16);
-        // pad each with zeros and return
-        let inverted = color("#" + padZero(r) + padZero(g) + padZero(b)).rgb();
-        return inverted;
-
-        function padZero(str, len) {
-            len = len || 2;
-            var zeros = new Array(len).join('0');
-            return (zeros + str).slice(-len);
-        }
-    }
-
-    //set color palette globally
-    setColorPalette() {
-        let c = fxrand();
-
-        if (c < 0.15) {
-            this.color.name = "Warm"
-        }
-        else if (c < 0.25) {
-            this.color.name = "Cool"
-        }
-        else if (c < 0.5) {
-            this.color.name = "Viridis"
-        }
-        else if (c < 0.7) {
-            this.color.name = "Magma"
-        }
-        else {
-            this.color.name = "Inferno"
-        }
-    }
-
-    //set individual colors for background and shader
-    setColors() {
-        this.color.background = this.interpolateFn(fxrand());
-        this.color.uno = this.interpolateFn(this.map(fxrand(),0,1,0,0.25));
-        this.color.dos = this.interpolateFn(this.map(fxrand(),0,1,0.25,0.75));
-        this.color.tres = this.interpolateFn(this.map(fxrand(),0,1,0.75,1));
-
-        //invert 33%
-        if (fxrand() > 0.666) {
-            this.color.background = this.invertColor(this.color.background);
-            this.color.uno = this.invertColor(this.color.uno);
-            this.color.dos = this.invertColor(this.color.dos);
-            this.color.tres = this.invertColor(this.color.tres);
-            this.color.name += " Invert";
-        }
-    }
 
     //set bump and texture scale
     setScale() {
