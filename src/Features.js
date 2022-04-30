@@ -25,6 +25,18 @@ class Features {
         }
         this.setRF();
 
+        //x y and z
+        this.x = {
+            tag: "",
+            value: 1.1
+        }
+        this.setX();
+
+        this.z = {
+            tag: "",
+            value: 1.0
+        }
+        this.setZ();
 
     }
 
@@ -85,8 +97,44 @@ class Features {
         else{
             this.n.tag = "999"
         }
-        this.n.value = this.map(n, 0, 1, 0.333, 3.0);
+        this.n.value = this.map(n, 0, 1, 0.01, 1.0);
 
+    }
+
+    setX() {
+        let x = fxrand();
+        if (x < 0.17) {
+            this.x.tag = "177";
+        }
+        else if (x < 0.49) {
+            this.x.tag = "494";
+        }
+        else if (x < 78) {
+            this.x.tag = "787";
+        }
+        else{
+            this.x.tag = "999";
+        }
+        this.x.value = this.map(x, 0, 1, 1.07, 1.13);
+    }
+
+    setY() {}
+
+    setZ() {
+        let z = fxrand();
+        if (z < 0.23) {
+            this.z.tag = "235"
+        }
+        else if(z < 0.58) {
+            this.z.tag = "581"
+        }
+        else if (z < 0.813) {
+            this.z.tag = "813"
+        }
+        else {
+            this.z.tag = "999"
+        }
+        this.z.value = this.map(z, 0, 1, 0.97, 1.03)
     }
 
 }

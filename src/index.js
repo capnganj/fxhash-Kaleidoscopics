@@ -16,7 +16,9 @@ window.$fxhashData = feet;
 window.$fxhashFeatures = {
   "t": feet.t.tag,
   "n": feet.n.tag,
-  "rf": feet.rtag + feet.ftag
+  "rf": feet.rtag + feet.ftag,
+  "x": feet.x.tag,
+  "z": feet.z.tag
 };
 console.log(window.$fxhashFeatures);
 console.log(feet);
@@ -47,7 +49,7 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 let camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.01, 1000);
-camera.position.set(0, 0, 4);
+camera.position.set(0, 0, 5);
 
 
 // controls
@@ -70,9 +72,9 @@ let uniforms = {
 
   //fragment only
   Randomise_Fractal: { value: [feet.rvalue, feet.fvalue]},
-  x1: { value: 1.1 },
+  x1: { value: feet.x.value },
   y1: { value: 1.05 },
-  z1: { value: 1.0 },
+  z1: { value: feet.z.value },
   t: { value: feet.t.value },
   NUM_SIDES: { value: feet.n.value }
 };
