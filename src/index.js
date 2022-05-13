@@ -16,7 +16,7 @@ window.$fxhashData = feet;
 window.$fxhashFeatures = {
   "t": feet.t.tag,
   "n": feet.n.tag,
-  "rf": feet.rtag + feet.ftag,
+  "rf": feet.rf.rtag + feet.rf.ftag,
   "x": feet.x.tag,
   "z": feet.z.tag
 };
@@ -57,7 +57,7 @@ let controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true;
 controls.dampingFactor = 1.0;
 controls.enableRotate = false;
-//controls.enablePan = false;
+controls.enablePan = false;
 //controls.autoRotate = true;
 controls.maxDistance = 7;
 controls.minDistance = 0.1;
@@ -71,7 +71,7 @@ let uniforms = {
   //vertex only
 
   //fragment only
-  Randomise_Fractal: { value: [feet.rvalue, feet.fvalue]},
+  Randomise_Fractal: { value: [feet.rf.rvalue, feet.rf.fvalue]},
   x1: { value: feet.x.value },
   y1: { value: 1.05 },
   z1: { value: feet.z.value },

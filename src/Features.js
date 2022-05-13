@@ -66,21 +66,21 @@ class Features {
     setRF() {
         let r = fxrand();
         if (r < 0.5) {
-            this.rtag = "0"
+            this.rf.rtag = "0"
         }
         else {
-            this.rtag = "1"
+            this.rf.rtag = "1"
         }
-        this.rvalue = r;
+        this.rf.rvalue = this.map(r, 0, 1, 0.25, 0.75);
 
         let f = fxrand();
         if (f < 0.5) {
-            this.ftag = "0"
+            this.rf.ftag = "0"
         }
         else {
-            this.ftag = "1"
+            this.rf.ftag = "1"
         }
-        this.fvalue = f;
+        this.rf.fvalue = this.map(f, 0, 1, 0.25, 0.75);
     }
 
     setN() {
