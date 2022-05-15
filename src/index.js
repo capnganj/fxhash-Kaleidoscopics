@@ -1,4 +1,4 @@
-//CAPNGANJ Tie Dye fxhash generative token
+//CAPNGANJ Kaleidoscopics fxhash generative token
 //April -> May, 2022
 
 //imports
@@ -14,10 +14,12 @@ window.$fxhashData = feet;
 
 // FX Features
 window.$fxhashFeatures = {
+  "d": feet.xyz,
   "t": feet.t.tag,
   "n": feet.n.tag,
   "rf": feet.rf.rtag + feet.rf.ftag,
   "x": feet.x.tag,
+  "y": feet.y.tag,
   "z": feet.z.tag
 };
 console.log(window.$fxhashFeatures);
@@ -46,6 +48,7 @@ let renderer = new THREE.WebGLRenderer({
 });
 renderer.setPixelRatio(window.devicePixelRatio);
 renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.domElement.id = "fxCanvas";
 document.body.appendChild(renderer.domElement);
 
 let camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.01, 1000);
@@ -73,7 +76,7 @@ let uniforms = {
   //fragment only
   Randomise_Fractal: { value: [feet.rf.rvalue, feet.rf.fvalue]},
   x1: { value: feet.x.value },
-  y1: { value: 1.05 },
+  y1: { value: feet.y.value },
   z1: { value: feet.z.value },
   t: { value: feet.t.value },
   NUM_SIDES: { value: feet.n.value }
@@ -120,9 +123,17 @@ function animate() {
 
   //uniforms['time'].value = performance.now() / 1000;
 
-  //set the y1 uniform along a sine wave
+  //set the x|y|z uniform along a sine wave
   let seconds = performance.now() / 10000;
-  uniforms['y1'].value = feet.map(Math.cos(seconds), -1, 1, 1.02, 1.08);
+  if (feet.xyz == "x") {
+    uniforms['x1'].value = feet.map(Math.cos(seconds), -1, 1, 1.05, 1.15);
+  } else if(feet.xyz == "y") {
+    uniforms['y1'].value = feet.map(Math.cos(seconds), -1, 1, 1.02, 1.08);
+  } else {
+    uniforms['z1'].value = feet.map(Math.cos(seconds), -1, 1, 0.95, 1.05);
+  }
+
+  
 
   controls.update(); // only required if controls.enableDamping = true, or if controls.autoRotate = true
 

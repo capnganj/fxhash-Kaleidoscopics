@@ -32,11 +32,21 @@ class Features {
         }
         this.setX();
 
+        this.y = {
+            tag: "",
+            value: 1.05
+        }
+        this.setY();
+
         this.z = {
             tag: "",
             value: 1.0
         }
         this.setZ();
+
+        //which dimension do we animate along?
+        this.xyz = "y";
+        this.setXYZ();
 
     }
 
@@ -115,10 +125,25 @@ class Features {
         else{
             this.x.tag = "999";
         }
-        this.x.value = this.map(x, 0, 1, 1.07, 1.13);
+        this.x.value = this.map(x, 0, 1, 1.05, 1.15);
     }
 
-    setY() {}
+    setY() {
+        let y = fxrand();
+        if (y < 0.27) {
+            this.y.tag = "277"
+        }
+        else if(y < 0.53) {
+            this.y.tag = "533"
+        }
+        else if (y < 0.78) {
+            this.y.tag = "788"
+        }
+        else {
+            this.y.tag = "999"
+        }
+        this.y.value = this.map(y, 0, 1, 1.02, 1.08)
+    }
 
     setZ() {
         let z = fxrand();
@@ -135,6 +160,19 @@ class Features {
             this.z.tag = "999"
         }
         this.z.value = this.map(z, 0, 1, 0.97, 1.03)
+    }
+
+    setXYZ() {
+        let xyz = fxrand();
+        if (xyz < 0.333) {
+            this.xyz = "x"
+        }
+        else if (xyz < 0.666) {
+            this.xyz = "y"
+        }
+        else {
+            this.xyz = "z"
+        }
     }
 
 }
