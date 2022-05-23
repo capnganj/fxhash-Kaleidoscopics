@@ -107,7 +107,7 @@ class Features {
         else{
             this.n.tag = "999"
         }
-        this.n.value = this.map(n, 0, 1, 0.01, 1.0);
+        this.n.value = this.map(n, 0, 1, 0.01, 1.5);
 
     }
 

@@ -148,7 +148,15 @@ function render() {
 
   if (previewed == false) {
     fxpreview();
+    //download();
     previewed = true;
   }
 
+}
+
+function download() {
+  var link = document.createElement('a');
+  link.download = 'Kaleidoscopics.png';
+  link.href = document.getElementById('fxCanvas').toDataURL()
+  link.click();
 }
